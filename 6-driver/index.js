@@ -13,5 +13,7 @@ const isDrunk = false;
 
 const canHeDrive = hasLicense && !isDrunk && age >= 18;
 
+
+// исправлено
 console.log(`Driver ${canHeDrive?'can drive':'cannot drive'}`);
 

@@ -1,4 +1,5 @@
 const lang = prompt().toLowerCase()
+// дополнено
 
 //первый вариант
 switch (lang.toLowerCase()) {
