@@ -1,7 +1,7 @@
-const lang = "eng";
+const lang = prompt().toLowerCase()
 
 //первый вариант
-switch (lang) {
+switch (lang.toLowerCase()) {
   case "de":
     console.log("Gutten tag");
     break;
@@ -9,10 +9,10 @@ switch (lang) {
     console.log("Hello");
     break;
   case "ar":
-    console.log("Привет");
+    console.log("مرحبًا");
     break;
   case "rus":
-    console.log("مرحبًا");
+    console.log("Привет");
     break;
   case "sp":
     console.log("Hola");
