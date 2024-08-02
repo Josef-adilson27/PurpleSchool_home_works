@@ -8,6 +8,7 @@
     Ставки конвертации хранятся внутри функции
 */
 
+
 function currencyConverter(amount, currency, targetingCurrency) {
     const USD = 95;
     const EUR = 110;
