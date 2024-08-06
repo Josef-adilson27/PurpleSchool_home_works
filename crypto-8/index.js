@@ -26,7 +26,6 @@ function crypto(password) {
   
   console.log(crypto("password")); //sswordpa
   
-  
   console.log(check("sswordpa", "password")); //true
   console.log(check("sswordpa", "qqqpassword")); //false
   

@@ -10,14 +10,25 @@
 
 let arr = [1, 40, -5, 10, 0];
 
-for (let i = 0; i < arr.length; i++) {
-  for (let j = 0; j < arr.length; j++) {
-    if (arr[j] > arr[j+1]) {
-      let t = arr[j]
-      arr[j] = arr[j+1]
-      arr[j+1] = t
+/// добавлена фукция
+function arrSort(array) {
+  // добавлен newArray
+  const newArray = [...array];
+
+  for (let i = 0; i < newArray.length; i++) {
+    let min = i;
+    for (let j = i + 1; j < newArray.length; j++) {
+      if (newArray[min] > newArray[j]) {
+        min = j; // Меняем значение переменной на наибольшее значение
+      }
     }
+    [newArray[i], newArray[min]] = [newArray[min], newArray[i]]; // Меняем значения переменных (добавлено)
   }
+  return newArray;
+  
 }
 
-console.log(arr); //[-5, 0, 1, 10, 40]
+const res = arrSort(arr);
+
+console.log(res); //сортированный массив -5, 0, 1, 10, 40
+console.log(arr); //оригинальный массив - 1, 40, -5, 10, 0
