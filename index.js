@@ -1,36 +1,32 @@
-
 ///функция шифратор
-function crypto(password) {
+function crypt(password){
 
-    const isOneWord = password.split(" ").length === 1;
-    const charactersAmount = password.split("").length < 15;
+  let array = password.split("");
+  const pswrd =  password.length > 15
   
-    if (password && isOneWord && charactersAmount && typeof password === "string") {
-      ///разделяем слово на три части
-      const a = password.slice(0,3);
-      const b = password.slice(3,5);
-      const c = password.slice(5);
-
-      ///return [a,b,c] /// правильный порядок
-      return [b, a, c]; /// шифрованный порядок
-      
-    } else {
-      console.log("Проверьте передавемое значение на корректность");
-    }
+  if (!pswrd) {
+    [array[0], array[2], array[6]] = [array[6], array[2], array[0]];
+    return array.join("");
+  } else {
+    console.log("Проверьте передавемое значение на корректность");
   }
 
-  ///функция дешифратор
-  const check = (originalPassword, encryptedPassword) => {
-    ///расшировываем
-      [a,b,c] = encryptedPassword
+}
 
-     if([a,b,c].join('')===originalPassword){
-      return true
-     }
-     return false
+const check = (originalPassword, encryptedPassword) => {
+  if (!encryptedPassword || !originalPassword) {
+    return false;
+  }
+  const decrypted_password = crypt(encryptedPassword);
+  return originalPassword === decrypted_password ; 
+};
 
-  };
 
-  console.log(check("swpasord", crypto("password")));//true
-  console.log(check("swpasord", crypto("aapassword")));//false
-  console.log(check("sssswpasord", crypto("password")));//false
+const password = "12345678";
+const encrypt = crypt(password); //72345618
+const decrypt = crypt(encrypt);  //12345678
+console.log(encrypt);
+console.log(decrypt);
+console.log(password, encrypt, decrypt, password === decrypt) //true
+
+console.log(check(password,'72345618')); //true
