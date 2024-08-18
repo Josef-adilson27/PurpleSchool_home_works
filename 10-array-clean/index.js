@@ -17,7 +17,9 @@ const filteredArray = [];
   for (element of array) {
     // ...возвращает true, если его надо удалить и false, если надо оставить
     // т.е записываем в filteredArray те что надо оставить
-    !callback(element) && filteredArray.push(element) 
+    if(!callback(element)){
+      filteredArray.push(element);
+  }
   }
  return filteredArray
 }

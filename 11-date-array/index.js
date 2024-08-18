@@ -1,58 +1,84 @@
 const arr = [
-  "12/21/2023",
-  "31/33/2023",
-  "test",
-  "31/31/2023",
-  "09,12,2023",
-  "00,23,2023",
-  "31,23,2023",
+  "10/30/2020",
+  "10-10-2021",
+  "30-12-1988",
+  "31-03-1988",
+  "31-02-1987",
+  "32-12-1987",
+  "31-12-1943",
+  "29-02-2023",
+  "02/29/2023",
+  "02/29/2024",
+  "02/29/2028",
 ];
 
-function dataFilter([...arr]) {
-  const correctDate = [];
-  const inCorrectDate = [];
+//single format creating  function
+function DATA_FORMATER(array) {
+  let arr = [];
 
-
-  //1.проверяем дату на корректность
-  //2.формируем правильную дату и пушаем ее в array
-  const DATA_FORMATER = (data) => {
-    const rusFormatDay = parseInt(data[0]) <= 31 && parseInt(data[0]) > 0;
-    const rusFormatMounth = parseInt(data[1]) <= 12;
-    const engFormatDay = parseInt(data[1]) <= 31 && parseInt(data[0]) > 0;
-    const engFormatMounth = parseInt(data[0]) <= 12;
-
-    // записываем как есть  т.е русский формат DD-MM-YYYY
-    if (rusFormatDay && rusFormatMounth) {
-      correctDate.push(data.join("-"));
-    }
-    // если не русский формат, то английский, записываем это со сменой мест дня и месяца (MM-DD-YYYY => DD-MM-YYYY)
-    // то есть, замена переменных для приведения к единому формату  (MM-DD-YYYY => DD-MM-YYYY)
-    else if (engFormatDay && engFormatMounth) {
-      let formarted = ([data[0], data[1]] = [data[1], data[0], data[2]]);
-      correctDate.push(formarted.join("-"));
-    } else {
-      inCorrectDate.push(data.join("-"));
-    }
-  };
-  
-  arr.map((item) => {
-    if (isNaN(item)) {
-      //заменяем разделительные знаки на '/'
-      const replaced = item.replaceAll(",", "/");
-      //формируем из replaced строка-дата => массив-дата  (для  DATA_FORMATER())
-      const element = [replaced.split("/")].flat(); //  '12,31,2023' => ['12', '31', '2023']
-      DATA_FORMATER(element);
+  array.map((element) => {
+    if (parseInt(element)) {
+      if (element.includes("/")) {
+        //covert 'eng' format to 'rus' and add it to arr
+        [month, day, year] = element.split("/");
+        [month, day] = [day, month];
+        arr.push([month, day, year].join("-"));
+      } else {
+        //add as it is
+        arr.push(element);
+      }
     }
   });
-
-
-  // возращаем масиив корректных дат
-  return correctDate
-
-  // возращаем объект корректных и  некорретных дат
- // return { correctDate, inCorrectDate };
+  return arr;
 }
 
-const res = dataFilter(arr);
+function DATA_CHECKER(array) {
+  // if day or month has only one character, then add zero at the start of it
+  const addZero = (num) => (num.length <= 1 ? "0" + num : num);
 
-console.log(res); //['21-12-2023', '31-03-2023', '31-11-2023', '09-12-2023']
+  const arr = {
+    leapYears: [],
+    longMonts: [],
+    allValidYears: [],
+  };
+
+  const longMonths = ["01", "03", "05", "07", "08", "10", "12"];
+
+  array.map((element) => {
+    [day, month, year] = element.split("-");
+
+    //date correctness checking variables
+    const dd = parseInt(day) > 1 && parseInt(day) <= 31;
+    const mm = parseInt(month) > 1 && parseInt(month) <= 12;
+    const yy = year.length === 4;
+
+    const isLeapYear = (day == "29" && month === "02" && year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const isLongMonth = day === "31" && longMonths.includes(month);
+
+    //long months
+    if (dd && mm && yy && isLongMonth) {
+      arr.longMonts.push([addZero(day), addZero(month), year].join("-"));
+    /// laep yaers only
+    } else if (dd && mm && yy && isLeapYear) {
+      arr.leapYears.push([addZero(day), addZero(month), year].join("-"));
+    //all valid data
+    } else if (dd && mm && yy) {
+      arr.allValidYears.push([addZero(day), addZero(month), year].join("-"));
+    }
+
+  })
+
+  return arr;
+
+}
+
+function showDate(array, DATA_FORMATER_CALLBACK, DATA_CHECKER_CALLBACK) {
+  const res1 = DATA_FORMATER_CALLBACK(array);
+  return DATA_CHECKER_CALLBACK(res1);
+}
+
+let result = showDate(arr, DATA_FORMATER, DATA_CHECKER);
+console.log(result)
+// leapYaers = ['29-02-2024', '29-02-2028']
+// longMonths = ['31-03-1988', '31-12-1943']
+///allValidData = ['30-10-2020', '10-10-2021', '30-12-1988', '31-02-1987', '29-02-2023', '29-02-2023']
