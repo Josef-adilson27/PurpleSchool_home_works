@@ -5,7 +5,7 @@ const arr = [
   'text',
   "12-06-2032",
   "31-03-1986",
-  "31-03-1984",
+  "31-02-1984",
   "32/12/1987",
   "31-12-1943",
   "29-02-2023",
@@ -84,6 +84,4 @@ function showDate(array, DATA_FORMATER_CALLBACK, DATA_CHECKER_CALLBACK) {
 }
 
 let result = showDate(arr, DATA_FORMATER, DATA_CHECKER);
-console.log(result);
-
-
+console.log(result); /// ['30-10-2020', '10-10-2021', '30-12-1988', '12-06-2032', '31-03-1986', '31-12-1943', '29-02-2024', '29-02-2028']
