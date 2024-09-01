@@ -12,11 +12,10 @@ const todoList = {
             let PRIORITY = typeof priority !== 'number'? 'error':priority
             let TITLE = typeof title !== 'string'? 'error':title  
 
-            this.todos = [...this.todos, { title:TITLE , priority:PRIORITY, id: title.length}]
+            this.todos = [...this.todos, { title:TITLE , priority:PRIORITY, id: Math.round(title.length/priority)}]
       },
 
       //проверочная фукция для для id (исп-ся в updateTodo и removeTodo для условий)
-
       removeTodo(id) {
             let ids = this.todos.map(item => item.id);
             const flag = ids.includes(id) ? true : false;
@@ -81,10 +80,10 @@ add('Купить яблоки', 3);
 add('Зайти к другу', 2);
 add('Зайти к бабушке', 3);
 
-remove(3);
+remove(7);
 
-update('dfgff',1245)
+update('запись на прием',4)
 
 
 
-console.log(newTask.todos)
+console.log(newTask.todos,'new tasks')

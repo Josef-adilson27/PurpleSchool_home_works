@@ -12,8 +12,8 @@ const todoList = {
             this.todos = [...this.todos, { title:TITLE , priority:PRIORITY, id: Math.round(title.length/priority) }]
       },
 
-      /// проверочная фукция для для id (исп-ся в updateTodo и removeTodo для условий)
-     
+      
+      /// проверочная фукция для для id (исп-ся в updateTodo и removeTodo для условий) 
       removeTodo(id) {
             let ids = this.todos.map(item => item.id);
             const flag = ids.includes(id) ? true : false;
