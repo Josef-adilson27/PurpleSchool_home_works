@@ -1,10 +1,6 @@
-function getQuery(query) {
-      const queryArray = [];
-      for (const [key, value] of Object.entries(query)) {
-            queryArray.push(`${key}=${value}`);
-      }
-      return queryArray.join('&');
-}
 
+const queryFunc = (params) => Object.entries(params)
 
-  console.log(getQuery( {search: 'John',take: 5}));
+.map(item => item.join('=')).join('&')
+
+console.log(queryFunc({search: 'John',take: 5}));

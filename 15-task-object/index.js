@@ -2,62 +2,61 @@ const todoList = {
 
       todos: [],
 
-      addTodo(title, priority) {
-            // если title или priority не сооотв-ют условию 
-            ///то подстваляем 'error' для каждого отдельного свойства 
+      idCount: 0,
 
-            let PRIORITY = typeof priority !== 'number'? 'error':priority
-            let TITLE = typeof title !== 'string'? 'error':title  
+      addTodo(data) {    
 
-            this.todos = [...this.todos, { title:TITLE , priority:PRIORITY, id: Math.round(title.length/priority) }]
-      },
-
-      
-      /// проверочная фукция для для id (исп-ся в updateTodo и removeTodo для условий) 
-      removeTodo(id) {
-            let ids = this.todos.map(item => item.id);
-            const flag = ids.includes(id) ? true : false;
-            if (flag ) {
-                  this.todos = this.todos.filter(item => item.id !== id)
+            if(data) {
+                  this.todos = [...this.todos, { ...data, id: this.idCount++ }]
             } else {
-                  console.log(`В вашем списке нет такого id как ${id} для удаления`)
+                  console.log('Проверьте параметры');
             }
+            
       },
 
-      updateTodo(updated, id) {
+      removeTodo(id) {
+           this.todos.some(item=>item.id==id)?
+           this.todos = this.todos.filter(item => item.id !== id):
+           console.log(`В вашем списке нет такого id как ${id} для удаления`)        
+      },
 
-            let ids = this.todos.map(item => item.id);
-            const flag = ids.includes(id) ? true : false;
+      updateTodo(data,id) {
 
-            if (flag) {
-                  this.todos.map(item => {
-                        if (item.id == id) {
-                              item.title = updated
+            const array = this.todos
+
+            if(this.todos.find(item => item.id == id)){
+                  for (let i = 0; i < array.length; i++) {
+                        if (array[i].id === id) {
+                        //если на написать: title = data, 
+                        //то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
+                        //поэтому заменяем целый объект. 
+                             array[i] = data
                         }
-                  })
-            } else {
+                  }
+
+            }else{
                   console.log(`В вашем списке нет такого id как ${id} для обновления`)
             }
       },
 
-      sortByPriority() {
-          return  [...this.todos].sort(function (a, b) {
-                  return parseInt(a.priority) - parseInt(b.priority);
-            });
+      sortByPriority(params) {   
+            return [...this.todos].sort((a, b) => a.priority - b.priority);
       },
-
-
 }
 
-todoList.addTodo('Встать 6:00', 1);
-todoList.addTodo('Погладить кота', 3);
-todoList.addTodo('Позвонить президенту', 2);
-todoList.addTodo('Полить цветы', 3);
 
-todoList.removeTodo(3)
+let obj = { title: 'Встать 6:00', priority: 1 }
+let obj2 = { title: 'Поехать в магазин', priority: 1 }
+let obj3 = { title: 'Полить цветы', priority: 5 }
 
 
-let prioritySort = todoList.sortByPriority()
-console.log(prioritySort,'Сортировано по приоритету');
+todoList.addTodo(obj);
+todoList.addTodo(obj2);
+todoList.addTodo(obj3);
+todoList.updateTodo({title: 'Полить дерево', priority: 3, id: 1 }, 1);
+todoList.removeTodo(2)
 
-console.log(todoList.todos,'оригинал');
+
+console.log(todoList.sortByPriority(), 'Сортировано по priority');
+
+console.log(todoList.todos, 'оригинал');

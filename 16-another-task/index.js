@@ -1,89 +1,88 @@
-
-
 const todoList = {
-      
+
       todos: [],
-      
-      addTodo(title, priority) {
 
-            // если title или priority не сооотв-ют условию 
-            ///то подстваляем 'error' для каждого отдельного свойства 
+      idCount: 0,
 
-            let PRIORITY = typeof priority !== 'number'? 'error':priority
-            let TITLE = typeof title !== 'string'? 'error':title  
+      addTodo(data) {    
 
-            this.todos = [...this.todos, { title:TITLE , priority:PRIORITY, id: Math.round(title.length/priority)}]
-      },
-
-      //проверочная фукция для для id (исп-ся в updateTodo и removeTodo для условий)
-      removeTodo(id) {
-            let ids = this.todos.map(item => item.id);
-            const flag = ids.includes(id) ? true : false;
-            if (flag ) {
-                  this.todos = this.todos.filter(item => item.id !== id)
+            if(data) {
+                  this.todos = [...this.todos, { ...data, id: this.idCount++ }]
             } else {
-                  console.log(`В вашем списке нет такого id как ${id} для удаления`)
+                  console.log('Проверьте параметры');
             }
+            
       },
 
-      updateTodo(updated, id) {
-            let ids = this.todos.map(item => item.id);
-            const flag = ids.includes(id) ? true : false;
-            if (flag) {
-                  this.todos.map(item => {
-                        if (item.id == id) {
-                              item.title = updated
+      removeTodo(id) {
+           this.todos.some(item=>item.id==id)?
+           this.todos = this.todos.filter(item => item.id !== id):
+           console.log(`В вашем списке нет такого id как ${id} для удаления`)        
+      },
+
+      updateTodo(data,id) {
+
+            const array = this.todos
+
+            if(this.todos.find(item => item.id == id)){
+                  for (let i = 0; i < array.length; i++) {
+                        if (array[i].id === id) {
+                        //если на написать: title = data, 
+                        //то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
+                        //поэтому заменяем целый объект. 
+                             array[i] = data
                         }
-                  })
-            } else {
+                  }
+
+            }else{
                   console.log(`В вашем списке нет такого id как ${id} для обновления`)
             }
       },
 
-      sortByPriority() {
-          return  [...this.todos].sort(function (a, b) {
-                  return parseInt(a.priority) - parseInt(b.priority);
-            });
-      }
-
+      sortByPriority(params) {   
+            return [...this.todos].sort((a, b) => a.priority - b.priority);
+      },
 }
 
-todoList.addTodo('Встать 6:00', 2);
-todoList.addTodo('Погладить кота', 3);
-todoList.addTodo('Позвонить президенту', 2);
-todoList.addTodo('Полить цветы', 3);
-todoList.updateTodo('Пойти в кабак',1)
-todoList.removeTodo(12)
+
+let obj = { title: 'Встать 6:00', priority: 1 }
+let obj2 = { title: 'Поехать в магазин', priority: 1 }
+let obj3 = { title: 'Полить цветы', priority: 5 }
 
 
+todoList.addTodo(obj);
+todoList.addTodo(obj2);
+todoList.addTodo(obj3);
+todoList.updateTodo({title: 'Полить дерево', priority: 3, id: 1 }, 1);
+todoList.removeTodo(2)
 
-let prioritySort = todoList.sortByPriority()
-console.log(prioritySort,'Сортировано по приоритету');
 
-console.log(todoList.todos,'оригинал (автоматически сортируется по id)');
+console.log(todoList.sortByPriority(), 'Сортировано по priority');
 
-////////////////////////////// new task ////////////////////////////////
+console.log(todoList.todos, 'оригинал');
+
+
+/////////////////////////////////////////////// new task ////////////////////////////////////////
+
 
 const add_todo = todoList.addTodo
 const remove_todo = todoList.removeTodo
 const update_todo = todoList.updateTodo
 
+const sort_todo = todoList.sortById
 
-const newTask = { todos: [] };
-
+const newTask = { todos: [], idCount: 0, };
 
 let add = add_todo.bind(newTask)
 let remove = remove_todo.bind(newTask)
 let update = update_todo.bind(newTask)
 
-add('Купить яблоки', 3);
-add('Зайти к другу', 2);
-add('Зайти к бабушке', 3);
-
-remove(7);
-
-update('запись на прием',4)
 
 
+add( { name: '', description:'', order:2});
+add( { name: '', description:'', order:1});
+add( { name: '', description:'', order:6});
+add( { name: '', description:'', order:5});
 
-console.log(newTask.todos,'new tasks')
+
+console.log(newTask.todos, 'new task');
