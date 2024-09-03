@@ -4,42 +4,41 @@ const todoList = {
 
       idCount: 0,
 
-      addTodo(data) {    
+      addTodo(data) {
 
-            if(data) {
+            if (data) {
                   this.todos = [...this.todos, { ...data, id: this.idCount++ }]
             } else {
                   console.log('Проверьте параметры');
             }
-            
+
       },
 
       removeTodo(id) {
-           this.todos.some(item=>item.id==id)?
-           this.todos = this.todos.filter(item => item.id !== id):
-           console.log(`В вашем списке нет такого id как ${id} для удаления`)        
+            this.todos.some(item => item.id == id) ?
+                  this.todos = this.todos.filter(item => item.id !== id) :
+                  console.log(`В вашем списке нет такого id как ${id} для удаления`)
       },
 
-      updateTodo(data,id) {
+      updateTodo(data, id) {
 
             const array = this.todos
 
-            if(this.todos.find(item => item.id == id)){
+            if (this.todos.find(item => item.id == id)) {
                   for (let i = 0; i < array.length; i++) {
                         if (array[i].id === id) {
-                        //если на написать: title = data, 
-                        //то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
-                        //поэтому заменяем целый объект. 
-                             array[i] = data
+                              //если менять тольк title то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
+                              //поэтому заменяем целый объект. 
+                              array[i] = data
                         }
                   }
 
-            }else{
+            } else {
                   console.log(`В вашем списке нет такого id как ${id} для обновления`)
             }
       },
 
-      sortByPriority(params) {   
+      sortByPriority(params) {
             return [...this.todos].sort((a, b) => a.priority - b.priority);
       },
 }
@@ -53,7 +52,7 @@ let obj3 = { title: 'Полить цветы', priority: 5 }
 todoList.addTodo(obj);
 todoList.addTodo(obj2);
 todoList.addTodo(obj3);
-todoList.updateTodo({title: 'Полить дерево', priority: 3, id: 1 }, 1);
+todoList.updateTodo({ title: 'Полить дерево', priority: 3, id: 1 }, 1);
 todoList.removeTodo(2)
 
 
@@ -79,10 +78,10 @@ let update = update_todo.bind(newTask)
 
 
 
-add( { name: '', description:'', order:2});
-add( { name: '', description:'', order:1});
-add( { name: '', description:'', order:6});
-add( { name: '', description:'', order:5});
+add({ name: '', description: '', order: 2 });
+add({ name: '', description: '', order: 1 });
+add({ name: '', description: '', order: 6 });
+add({ name: '', description: '', order: 5 });
 
 
 console.log(newTask.todos, 'new task');

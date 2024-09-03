@@ -27,8 +27,7 @@ const todoList = {
             if(this.todos.find(item => item.id == id)){
                   for (let i = 0; i < array.length; i++) {
                         if (array[i].id === id) {
-                        //если на написать: title = data, 
-                        //то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
+                        //если менять тольк title то эту функц. нельзя привязать к объекту где нет свойтсв title. (напр. как в another-task)
                         //поэтому заменяем целый объект. 
                              array[i] = data
                         }
