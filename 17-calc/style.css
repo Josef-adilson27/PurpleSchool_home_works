@@ -26,6 +26,7 @@ span{
       padding: 10px;
       background-color: azure;
       border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .input1 {
@@ -47,14 +48,16 @@ span{
       gap: 10px;
       margin: 100px;
       padding: 100px;
-      background-color: rgba(252, 252, 252, 0.809);
+      background-color: rgba(255, 255, 255, 0.809);
       border-radius: 10px;
+      
 }
 
 .content div:nth-child(1) {
       width: 300px;
       display: flex;
       justify-content: space-between;
+      
     
 }
 
@@ -62,19 +65,22 @@ span{
       padding: 5px;
       border-radius: 5px;
       width: 300px;
-      background-color: rgb(220, 233, 222);
+      height: 100px;
+      background-color: rgb(247, 247, 247);
       display: flex;
       justify-content: space-around;
+      align-items: center;
       flex-wrap:wrap;
 }
 
-.content div:nth-child(2)>*{
+.content div:nth-child(2) > *{
   width: 50px;
   height: 40px;
   border-radius: 5px;
   margin: 3px;
   border: none;
-  background-color: rgb(174, 30, 112);
+background-color: rgb(209, 207, 223);
+
 }
 
 .content div:nth-child(3)>*{
@@ -83,15 +89,16 @@ span{
       border-radius: 5px;
       margin: 3px;
       border: none;
-      background-color: rgb(174, 30, 112);
+    
+
     }
 
 .content div:nth-child(3)>*:hover {
-      background-color: rgb(147, 23, 94);
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .content div:nth-child(2)>*:hover {
-      background-color: rgb(147, 23, 94);
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 

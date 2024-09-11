@@ -1,67 +1,72 @@
 const btns = document.querySelectorAll('.buttons button')
 
-const A = document.querySelector('.input1')
-const B = document.querySelector('.input2')
-let result = document.querySelector('.result')
-let equal = document.querySelector('.equal')
-let reset = document.querySelector('.reset')
-let OperationSymbol = document.querySelector('.symbolBtn')
-
-
-
-//записываем в OperationSymbol нажатую кнопку операции
-
-for (const element of btns) {
-      element.addEventListener('click', function () {
-            OperationSymbol.innerText = this.innerText
-      })
+const page = {
+      inputs: {
+            firstValue: document.querySelector('.input1'),
+            secondValue: document.querySelector('.input2')
+      },
+      buttons: {
+            resultButton: document.querySelector('.equal'),
+            resetButton: document.querySelector('.reset'),
+            operatingButtons: document.querySelector('.buttons')
+      },
+      outPuts: {
+            resultText: document.querySelector('.result span'),
+            operationSymbol: document.querySelector('.symbolBtn')
+      }
 }
 
 
-//здесь в зависимости от знака оперции из OperationSymbol выводим результат
-equal.addEventListener('click', function () {
-
-      let neytral = () => result.classList.remove('redStatus')
-      let redStatus = () => result.classList.add('redStatus')
-
-      if (isNumber(A.value) && isNumber(B.value)) {
-
-            switch (OperationSymbol.innerText) {
-                  case '+': {
-                        neytral()
-                        return result.innerText = parseInt(A.value) + parseInt(B.value)
-                  }
-                  case '-': {
-                        neytral()
-                        return result.innerText = parseInt(A.value) - parseInt(B.value)
-                  }
-                  case '/': {
-                        if (B.value === '0') {
-                              redStatus()
-                              return result.innerText = 'на ноль делит нельзя'
-                        }
-                        neytral()
-                        return result.innerText = (A.value / B.value).toFixed(2)
-                  }
-                  case '*': {
-                        neytral()
-                        return result.innerText = (A.value * B.value).toFixed(2)
-                  }
-            }
-
-      } else if(!isNumber(A.value) && !isNumber(B.value)) {
-            result.innerText = 'не корректные данные'
+//записываем в OperationSymbol нажатую кнопку операции
+page.buttons.operatingButtons.addEventListener('click', function (e) {
+      if(e.target.tagName === 'BUTTON'){
+            page.outPuts.operationSymbol.innerText = e.target.innerText;
       }
 })
 
 
-reset.addEventListener('click', function () {
-      A.value = ''
-      B.value = ''
-      OperationSymbol.innerText = ''
-      result.innerText = 'Результат'
+/// классы задавания цвета в зав-сти от правильности ответа
+const  neytral = () => page.outPuts.resultText.classList.remove('redStatus')
+const  redStatus = () => page.outPuts.resultText.classList.add('redStatus')
+
+//здесь в зависимости от знака оперции из OperationSymbol выводим результат
+
+page.buttons.resultButton.addEventListener('click', function () {
+      
+      let  firstValue = parseInt(page.inputs.firstValue.value) 
+      let  secondValue = parseInt(page.inputs.secondValue.value)
+      let  result = page.outPuts.resultText
+
+
+      switch (page.outPuts.operationSymbol.innerText){
+            case '+': {
+                  neytral()
+                 return result.innerText +=  firstValue + secondValue       
+            }
+            case '-': {
+                  neytral()
+                  return result.innerText = firstValue - secondValue
+            }
+            case '/': {
+                  if (secondValue === 0) {
+                        redStatus()
+                        return result.innerText = 'на ноль делит нельзя'
+                  }
+                  neytral()
+                  return result.innerText = (firstValue / secondValue).toFixed(2)
+            }
+            case '*': {
+                  neytral()
+                  return result.innerText = (firstValue * secondValue).toFixed(2)
+            }
+      }
+      
 })
 
-function isNumber(value) {
-      return !isNaN(parseInt(value))
-}
+
+page.buttons.resetButton.addEventListener('click', function () {
+      page.inputs.firstValue.value = ''
+      page.inputs.secondValue.value  = ''
+      page.outPuts.operationSymbol.innerText = ''
+      page.outPuts.resultText.innerText = ''
+})
